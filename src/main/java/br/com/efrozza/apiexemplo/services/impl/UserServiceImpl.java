@@ -46,4 +46,9 @@ public class UserServiceImpl implements UserService {
         }
         return null;
     }
+
+    @Override
+    public User update(UserDTO userDTO) {
+        return repository.save(mapper.map(userDTO, User.class));
+    }
 }

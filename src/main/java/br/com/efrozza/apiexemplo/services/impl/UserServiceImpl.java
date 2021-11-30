@@ -3,6 +3,7 @@ package br.com.efrozza.apiexemplo.services.impl;
 import br.com.efrozza.apiexemplo.domain.User;
 import br.com.efrozza.apiexemplo.repository.UserRepository;
 import br.com.efrozza.apiexemplo.services.UserService;
+import br.com.efrozza.apiexemplo.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +16,8 @@ public class UserServiceImpl implements UserService {
     private UserRepository repository;
 
     @Override
-    public Optional<User> findById(Integer id) {
+    public User findById(Integer id) {
         Optional<User> user = repository.findById(id);
-        return user;
+        return user.orElseThrow(() -> new ObjectNotFoundException("Usuario nao encontrado"));
     }
 }

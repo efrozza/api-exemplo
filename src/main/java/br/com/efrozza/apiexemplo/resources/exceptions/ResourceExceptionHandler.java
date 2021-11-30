@@ -1,5 +1,6 @@
 package br.com.efrozza.apiexemplo.resources.exceptions;
 
+import br.com.efrozza.apiexemplo.services.exceptions.DataIntegretyVaiolationException;
 import br.com.efrozza.apiexemplo.services.exceptions.ObjectNotFoundException;
 import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
@@ -14,10 +15,16 @@ import java.time.LocalDateTime;
 @ControllerAdvice
 public class ResourceExceptionHandler {
 
-    @ExceptionHandler
+    @ExceptionHandler(ObjectNotFoundException.class)
     public ResponseEntity<StandardError> objectNotFound (ObjectNotFoundException ex, HttpServletRequest request){
         StandardError error = new StandardError(LocalDateTime.now(), HttpStatus.NOT_FOUND.value(), ex.getMessage(), request.getRequestURI());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    }
+
+    @ExceptionHandler(DataIntegretyVaiolationException.class)
+    public ResponseEntity<StandardError> dataIntegratyViolation (DataIntegretyVaiolationException ex, HttpServletRequest request){
+        StandardError error = new StandardError(LocalDateTime.now(), HttpStatus.BAD_REQUEST.value(), ex.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 
 }

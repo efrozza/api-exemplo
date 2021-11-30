@@ -49,6 +49,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User update(UserDTO userDTO) {
+        findByEmail(userDTO);
         return repository.save(mapper.map(userDTO, User.class));
+    }
+
+    @Override
+    public void delete(Integer id) {
+        Optional<User> user = repository.findById(id);
+        if (!user.isPresent()){
+            throw new ObjectNotFoundException("Usuario nao encontrado");
+        }
+        repository.delete(user.get());
     }
 }

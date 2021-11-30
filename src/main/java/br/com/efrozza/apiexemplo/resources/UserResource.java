@@ -17,13 +17,15 @@ import java.util.stream.Collectors;
 @RequestMapping(value = "/user")
 public class UserResource {
 
+    public static final String ID = "/{id}";
+
     @Autowired
     private ModelMapper mapper;
 
     @Autowired
     private UserService service;
 
-    @GetMapping(value = "/{id}")
+    @GetMapping(value = ID)
     // Devolver uma entity eh um erro de arquitetura e atéh uma falha de segurança
     // por isso o padrao DTO é usado
     public ResponseEntity<UserDTO> findById(@PathVariable Integer id){
@@ -31,7 +33,7 @@ public class UserResource {
     }
 
     @GetMapping
-    public ResponseEntity<List<UserDTO>> findAll(){
+    public ResponseEntity<List<UserDTO>> consultarUsuarios(){
 
         List<UserDTO> listaUsuariosDTO  = service.findAll()
                                         .stream()
@@ -50,12 +52,18 @@ public class UserResource {
         return ResponseEntity.created(uri).build();
     }
 
-    @PutMapping(value = "/{id}")
-    public ResponseEntity<UserDTO> atualizarUsuario(@PathVariable Integer id, @RequestBody UserDTO userDTO){
+    @PutMapping(value = ID)
+    public ResponseEntity<UserDTO> atualizarUsuario(@PathVariable Integer id,
+                                                    @RequestBody UserDTO userDTO){
         userDTO.setId(id);
         User usuarioAtualizado = service.update(userDTO);
         return ResponseEntity.ok().body(mapper.map(usuarioAtualizado, UserDTO.class));
     }
 
+    @DeleteMapping(value = ID)
+    public ResponseEntity<UserDTO> deletarUsuario (@PathVariable Integer id){
+        service.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 
 }

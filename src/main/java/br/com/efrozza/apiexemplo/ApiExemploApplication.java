@@ -11,8 +11,6 @@ public class ApiExemploApplication {
 
 		SpringApplication.run(ApiExemploApplication.class, args);
 
-
 	}
-
 
 }

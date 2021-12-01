@@ -19,8 +19,8 @@ public class LocalConfig {
 
     @Bean
     public void startDb(){
-        User user1 = new User(null, "Everton", "everton@bol.com", "123");
-        User user2 = new User(null, "Testador", "testador@bol.com", "123");
+        User user1 = new User(1, "Everton", "everton@bol.com", "123");
+        User user2 = new User(1, "Testador", "testador@bol.com", "123");
 
         List<User> usuariosDoBanco = new ArrayList<>();
         usuariosDoBanco.add(user1);

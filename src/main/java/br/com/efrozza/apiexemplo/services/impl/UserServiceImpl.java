@@ -59,6 +59,6 @@ public class UserServiceImpl implements UserService {
         if (!user.isPresent()){
             throw new ObjectNotFoundException("Usuario nao encontrado");
         }
-        repository.delete(user.get());
+        repository.deleteById(id);
     }
 }

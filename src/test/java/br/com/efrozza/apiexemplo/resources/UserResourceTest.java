@@ -82,6 +82,8 @@ class UserResourceTest {
         assertEquals(ArrayList.class, response.getBody().getClass());
         assertEquals(UserDTO.class, response.getBody().get(INDEX_ZERO).getClass());
         assertEquals(ID, response.getBody().get(INDEX_ZERO).getId());
+        assertEquals(NOME, response.getBody().get(INDEX_ZERO).getNome());
+        assertEquals(PASSWORD, response.getBody().get(INDEX_ZERO).getPassword());
     }
 
     @Test

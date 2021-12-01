@@ -96,7 +96,19 @@ class UserResourceTest {
     }
 
     @Test
-    void atualizarUsuario() {
+    void whenAtualizarUsuario() {
+
+        when(service.update(userDTO)).thenReturn(user);
+        when(mapper.map(any(), any())).thenReturn(userDTO);
+
+        ResponseEntity<UserDTO> response = resource.atualizarUsuario(ID, userDTO);
+
+        assertNotNull(response);
+        assertNotNull(response.getBody());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(ResponseEntity.class, response.getClass());
+        assertEquals(UserDTO.class, response.getBody().getClass());
+
     }
 
     @Test

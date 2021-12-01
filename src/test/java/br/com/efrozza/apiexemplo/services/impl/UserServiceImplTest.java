@@ -200,8 +200,8 @@ class UserServiceImplTest {
     }
 
     private List<User> listaUsuariosMock (){
-        User user1 = new User(null, "Everton", "everton@bol.com", "123");
-        User user2 = new User(null, "Testador", "testador@bol.com", "123");
+        User user1 = new User(1, "Everton", "everton@bol.com", "123");
+        User user2 = new User(2, "Testador", "testador@bol.com", "123");
 
         List<User> usuariosMock = new ArrayList<>();
         usuariosMock.add(user1);

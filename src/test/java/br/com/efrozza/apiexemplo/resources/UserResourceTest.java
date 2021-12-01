@@ -12,9 +12,12 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.Assert;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -65,7 +68,20 @@ class UserResourceTest {
     }
 
     @Test
-    void consultarUsuarios() {
+    void whenConsultarUsuariosThenReturnListOfUser() {
+
+        when(service.findAll()).thenReturn(listaUsuariosMock());
+        when(mapper.map(any(), any())).thenReturn(userDTO);
+
+        ResponseEntity<List<UserDTO>> response = resource.consultarUsuarios();
+
+        assertNotNull(response);
+        assertNotNull(response.getBody());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(ResponseEntity.class, response.getClass());
+        assertEquals(ArrayList.class, response.getBody().getClass());
+        assertEquals(UserDTO.class, response.getBody().get(INDEX_ZERO).getClass());
+        assertEquals(ID, response.getBody().get(INDEX_ZERO).getId());
     }
 
     @Test
@@ -85,4 +101,17 @@ class UserResourceTest {
         user = new User(ID, NOME, EMAIL, PASSWORD);
         userDTO = new UserDTO(ID, NOME, EMAIL, PASSWORD);
     }
+
+    private List<User> listaUsuariosMock (){
+        User user1 = new User(1, "Everton", "everton@bol.com", "123");
+        User user2 = new User(2, "Testador", "testador@bol.com", "123");
+
+        List<User> usuariosMock = new ArrayList<>();
+        usuariosMock.add(user1);
+        usuariosMock.add(user2);
+
+        return usuariosMock;
+    }
+
+
 }

@@ -174,10 +174,6 @@ class UserServiceImplTest {
     }
 
 
-    @Test
-    void findByEmail() {
-    }
-
 
     @Test
     void deleteWithSucess() {
@@ -188,6 +184,19 @@ class UserServiceImplTest {
         service.delete(ID);
 
         verify(repository, times(1)).deleteById(anyInt());
+    }
+
+    @Test
+    void deleteWithObjectNotFoundException(){
+
+        when(repository.findById(anyInt())).thenThrow(new ObjectNotFoundException(USUARIO_NAO_ENCONTRADO));
+
+        try {
+            service.delete(ID);
+        } catch (Exception e){
+            assertEquals(ObjectNotFoundException.class, e.getClass());
+            assertEquals(USUARIO_NAO_ENCONTRADO, e.getMessage());
+        }
     }
 
     private List<User> listaUsuariosMock (){

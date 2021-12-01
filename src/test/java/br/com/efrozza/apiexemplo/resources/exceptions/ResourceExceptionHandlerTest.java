@@ -45,7 +45,7 @@ class ResourceExceptionHandlerTest {
     @Test
     void dataIntegrityViolation() {
         ResponseEntity<StandardError> response = exceptionHandler
-                .dataItegritiViolation(new DataIntegrityViolationException(EMAIL_JA_EXISTENTE),
+                .dataIntegrityViolation(new DataIntegrityViolationException(EMAIL_JA_EXISTENTE),
                         new MockHttpServletRequest());
         assertNotNull(response);
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());

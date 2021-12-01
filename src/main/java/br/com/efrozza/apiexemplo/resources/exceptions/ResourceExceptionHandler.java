@@ -13,16 +13,22 @@ import java.time.LocalDateTime;
 @ControllerAdvice
 public class ResourceExceptionHandler {
 
+
+    // o handlers vão lidar com qualquer exeção do tipo passado por parametro e trata-las
     @ExceptionHandler(ObjectNotFoundException.class)
     public ResponseEntity<StandardError> objectNotFound (ObjectNotFoundException ex, HttpServletRequest request){
         StandardError error = new StandardError(LocalDateTime.now(), HttpStatus.NOT_FOUND.value(),
                                                 ex.getMessage(), request.getRequestURI());
+
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
 
-    @ExceptionHandler(org.springframework.dao.DataIntegrityViolationException.class)
-    public ResponseEntity<StandardError> dataItegritiViolation (DataIntegrityViolationException ex, HttpServletRequest request){
-        StandardError error = new StandardError(LocalDateTime.now(), HttpStatus.BAD_REQUEST.value(), ex.getMessage(), request.getRequestURI());
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<StandardError> dataIntegrityViolation (DataIntegrityViolationException ex,
+                                                                 HttpServletRequest request){
+        StandardError error = new StandardError(LocalDateTime.now(), HttpStatus.BAD_REQUEST.value(),
+                                               ex.getMessage(), request.getRequestURI());
+
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 

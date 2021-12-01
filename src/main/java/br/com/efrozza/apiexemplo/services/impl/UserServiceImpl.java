@@ -16,6 +16,9 @@ import java.util.Optional;
 @Service
 public class UserServiceImpl implements UserService {
 
+    public static final String USUARIO_NAO_ENCONTRADO = "Usuario nao encontrado";
+    public static final String EMAIL_JA_EXISTENTE = "Email ja existente";
+
     @Autowired
     private UserRepository repository;
 
@@ -25,9 +28,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findById(Integer id) {
         Optional<User> user = repository.findById(id);
-        return user.orElseThrow(() -> new ObjectNotFoundException("Usuario nao encontrado"));
+        return user.orElseThrow(() -> new ObjectNotFoundException(USUARIO_NAO_ENCONTRADO ));
     }
 
+    @Override
     public List<User> findAll(){
         return repository.findAll();
     }
@@ -38,18 +42,21 @@ public class UserServiceImpl implements UserService {
         return repository.save(mapper.map(userDTO, User.class));
     }
 
-    @Override
-    public User findByEmail(UserDTO userDTO) {
+    public void findByEmail(UserDTO userDTO) {
         Optional<User> user = repository.findByEmail(userDTO.getEmail());
-        if (user.isPresent()){
-            throw new DataIntegrityViolationException("Email ja existente");
+        if (user.isPresent() && !user.get().getId().equals(userDTO.getId())){
+            throw new DataIntegrityViolationException(EMAIL_JA_EXISTENTE);
         }
-        return null;
     }
 
     @Override
     public User update(UserDTO userDTO) {
-        findByEmail(userDTO);
+        Optional<User> user = repository.findById(userDTO.getId());
+        if (user.isPresent() ) {
+            findByEmail(userDTO);
+        } else {
+            throw new ObjectNotFoundException(USUARIO_NAO_ENCONTRADO);
+        }
         return repository.save(mapper.map(userDTO, User.class));
     }
 
@@ -57,7 +64,7 @@ public class UserServiceImpl implements UserService {
     public void delete(Integer id) {
         Optional<User> user = repository.findById(id);
         if (!user.isPresent()){
-            throw new ObjectNotFoundException("Usuario nao encontrado");
+            throw new ObjectNotFoundException(USUARIO_NAO_ENCONTRADO);
         }
         repository.deleteById(id);
     }

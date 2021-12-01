@@ -98,7 +98,7 @@ class UserServiceImplTest {
 
         when(repository.findAll()).thenReturn(listaUsuariosMock());
 
-        List<User> response = repository.findAll();
+        List<User> response = service.findAll();
 
         assertNotNull(response);
         assertTrue(response.size() == 2);
@@ -127,7 +127,7 @@ class UserServiceImplTest {
     @Test
     void whenCreateThenReturnDataIntegrityViolationException() {
         //mocks
-        when(service.findByEmail(userDTO)).thenThrow(new DataIntegrityViolationException("Email ja existente"));
+        when(repository.findByEmail(anyString())).thenReturn(optionalUser);
 
         // acao
         try {
@@ -141,6 +141,7 @@ class UserServiceImplTest {
     @Test
     void whenUpdateThenReturnSuccess() {
         //mocks
+        when(repository.findById(anyInt())).thenReturn(optionalUser);
         when(repository.save(any())).thenReturn(user);
 
         // acao
@@ -155,18 +156,33 @@ class UserServiceImplTest {
         assertEquals(PASSWORD, response.getPassword());
 
     }
-
     @Test
+
     void whenUpdateThenReturnDataIntegrityViolationException() {
         //mocks
-        when(service.findByEmail(userDTO)).thenThrow(new DataIntegrityViolationException("Email ja existente"));
+        when(repository.findById(anyInt())).thenReturn(optionalUser);
+        when(repository.findByEmail(anyString())).thenReturn(optionalUser);
 
         // acao
         try {
-            User response = service.update(userDTO);
+            service.update(userDTO);
         } catch (Exception e){
             assertEquals(DataIntegrityViolationException.class, e.getClass());
             assertEquals(EMAIL_JA_EXISTENTE, e.getMessage());
+        }
+    }
+
+    @Test
+    void whenUpdateThenReturnObjectNotFoundException() {
+        //mocks
+        when(repository.findByEmail(anyString())).thenReturn(optionalUser);
+
+        // acao
+        try {
+            service.update(userDTO);
+        } catch (Exception e){
+            assertEquals(ObjectNotFoundException.class, e.getClass());
+            assertEquals(USUARIO_NAO_ENCONTRADO, e.getMessage());
         }
     }
 

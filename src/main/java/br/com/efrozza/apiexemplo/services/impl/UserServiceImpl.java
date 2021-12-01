@@ -4,7 +4,7 @@ import br.com.efrozza.apiexemplo.domain.User;
 import br.com.efrozza.apiexemplo.domain.UserDTO;
 import br.com.efrozza.apiexemplo.repository.UserRepository;
 import br.com.efrozza.apiexemplo.services.UserService;
-import br.com.efrozza.apiexemplo.services.exceptions.DataIntegretyVaiolationException;
+import br.com.efrozza.apiexemplo.services.exceptions.DataIntegrityViolationException;
 import br.com.efrozza.apiexemplo.services.exceptions.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
     public User findByEmail(UserDTO userDTO) {
         Optional<User> user = repository.findByEmail(userDTO.getEmail());
         if (user.isPresent()){
-            throw new DataIntegretyVaiolationException("Email ja existente");
+            throw new DataIntegrityViolationException("Email ja existente");
         }
         return null;
     }

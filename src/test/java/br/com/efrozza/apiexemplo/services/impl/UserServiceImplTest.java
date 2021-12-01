@@ -3,15 +3,12 @@ package br.com.efrozza.apiexemplo.services.impl;
 import br.com.efrozza.apiexemplo.domain.User;
 import br.com.efrozza.apiexemplo.domain.UserDTO;
 import br.com.efrozza.apiexemplo.repository.UserRepository;
-import br.com.efrozza.apiexemplo.services.UserService;
-import br.com.efrozza.apiexemplo.services.exceptions.DataIntegretyVaiolationException;
+import br.com.efrozza.apiexemplo.services.exceptions.DataIntegrityViolationException;
 import br.com.efrozza.apiexemplo.services.exceptions.ObjectNotFoundException;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -130,13 +127,13 @@ class UserServiceImplTest {
     @Test
     void whenCreateThenReturnDataIntegrityViolationException() {
         //mocks
-        when(service.findByEmail(userDTO)).thenThrow(new DataIntegretyVaiolationException("Email ja existente"));
+        when(service.findByEmail(userDTO)).thenThrow(new DataIntegrityViolationException("Email ja existente"));
 
         // acao
         try {
             User response = service.create(userDTO);
         } catch (Exception e){
-            assertEquals(DataIntegretyVaiolationException.class, e.getClass());
+            assertEquals(DataIntegrityViolationException.class, e.getClass());
             assertEquals(EMAIL_JA_EXISTENTE, e.getMessage());
         }
     }
@@ -162,13 +159,13 @@ class UserServiceImplTest {
     @Test
     void whenUpdateThenReturnDataIntegrityViolationException() {
         //mocks
-        when(service.findByEmail(userDTO)).thenThrow(new DataIntegretyVaiolationException("Email ja existente"));
+        when(service.findByEmail(userDTO)).thenThrow(new DataIntegrityViolationException("Email ja existente"));
 
         // acao
         try {
             User response = service.update(userDTO);
         } catch (Exception e){
-            assertEquals(DataIntegretyVaiolationException.class, e.getClass());
+            assertEquals(DataIntegrityViolationException.class, e.getClass());
             assertEquals(EMAIL_JA_EXISTENTE, e.getMessage());
         }
     }

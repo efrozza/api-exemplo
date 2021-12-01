@@ -15,6 +15,8 @@ import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -29,6 +31,7 @@ class UserServiceImplTest {
     public static final String PASSWORD     = "senha123";
     public static final Integer ID          = 1;
     public static final String USUARIO_NAO_ENCONTRADO = "Usuario nao encontrado";
+    public static final int INDEX_ZERO = 0;
 
     // precisamos ter uma instancia real da classe que vamos testar
     // as demais vamos mockar
@@ -91,7 +94,16 @@ class UserServiceImplTest {
     }
 
     @Test
-    void findAll() {
+    void whenFindAllThenReturnAnListOfUsers() {
+
+        when(repository.findAll()).thenReturn(listaUsuariosMock());
+
+        List<User> response = repository.findAll();
+
+        assertNotNull(response);
+        assertTrue(response.size() == 2);
+        assertEquals(User.class, response.get(INDEX_ZERO).getClass());
+        assertEquals(response.get(INDEX_ZERO).getNome(), "Everton");
     }
 
     @Test
@@ -110,6 +122,16 @@ class UserServiceImplTest {
     void delete() {
     }
 
+    private List<User> listaUsuariosMock (){
+        User user1 = new User(null, "Everton", "everton@bol.com", "123");
+        User user2 = new User(null, "Testador", "testador@bol.com", "123");
+
+        List<User> usuariosMock = new ArrayList<>();
+        usuariosMock.add(user1);
+        usuariosMock.add(user2);
+
+        return usuariosMock;
+    }
     // inicializa objetos que serão usados
     private void startUser(){
         user = new User(ID, NOME, EMAIL, PASSWORD);

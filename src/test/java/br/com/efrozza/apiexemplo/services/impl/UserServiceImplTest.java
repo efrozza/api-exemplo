@@ -4,6 +4,7 @@ import br.com.efrozza.apiexemplo.domain.User;
 import br.com.efrozza.apiexemplo.domain.UserDTO;
 import br.com.efrozza.apiexemplo.repository.UserRepository;
 import br.com.efrozza.apiexemplo.services.UserService;
+import br.com.efrozza.apiexemplo.services.exceptions.DataIntegretyVaiolationException;
 import br.com.efrozza.apiexemplo.services.exceptions.ObjectNotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,6 +34,7 @@ class UserServiceImplTest {
     public static final Integer ID          = 1;
     public static final String USUARIO_NAO_ENCONTRADO = "Usuario nao encontrado";
     public static final int INDEX_ZERO = 0;
+    public static final String EMAIL_JA_EXISTENTE = "Email ja existente";
 
     // precisamos ter uma instancia real da classe que vamos testar
     // as demais vamos mockar
@@ -114,6 +116,38 @@ class UserServiceImplTest {
 
         // acao
         User response = service.create(userDTO);
+
+        //test
+        assertNotNull(response);
+        assertEquals(User.class, response.getClass());
+        assertEquals(ID, response.getId());
+        assertEquals(NOME, response.getNome());
+        assertEquals(EMAIL, response.getEmail());
+        assertEquals(PASSWORD, response.getPassword());
+
+    }
+
+    @Test
+    void createThenReturnDataIntegrityViolationException() {
+        //mocks
+        when(service.findByEmail(userDTO)).thenThrow(new DataIntegretyVaiolationException("Email ja existente"));
+
+        // acao
+        try {
+            User response = service.create(userDTO);
+        } catch (Exception e){
+            assertEquals(DataIntegretyVaiolationException.class, e.getClass());
+            assertEquals(EMAIL_JA_EXISTENTE, e.getMessage());
+        }
+    }
+
+    @Test
+    void whenUpdateThenReturnSuccess() {
+        //mocks
+        when(repository.save(any())).thenReturn(user);
+
+        // acao
+        User response = service.update(userDTO);
 
         //test
         assertNotNull(response);

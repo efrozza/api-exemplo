@@ -85,7 +85,14 @@ class UserResourceTest {
     }
 
     @Test
-    void criarUsuario() {
+    void whenCriarUsuarioThenReturnCreated() {
+
+        when(service.create(any())).thenReturn(user);
+
+        ResponseEntity<UserDTO> response = resource.criarUsuario(userDTO);
+
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+
     }
 
     @Test

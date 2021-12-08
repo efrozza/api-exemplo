@@ -38,6 +38,7 @@ public class UserResource {
         List<UserDTO> listaUsuariosDTO  = service.findAll()
                                         .stream()
                                         .map(usuario -> mapper.map(usuario, UserDTO.class))
+
                                         .collect(Collectors.toList());
 
         return ResponseEntity.ok().body(listaUsuariosDTO);

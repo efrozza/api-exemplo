@@ -31,8 +31,8 @@ public class LocalConfig {
     @Bean
     public void startDb(){
 
-        Trilha t1 = new Trilha(1, "Trilha 1", new ArrayList<>());
-        Trilha t2 = new Trilha(2, "Trilha 2", new ArrayList<>());
+        Trilha t1 = new Trilha(1, "SCRUM", new ArrayList<>());
+        Trilha t2 = new Trilha(2, "Caminhos AWS", new ArrayList<>());
 
         List<Trilha> trilhas = new ArrayList<>();
         trilhas.add(t1);
@@ -44,13 +44,15 @@ public class LocalConfig {
         usuariosDoBanco.add(user1);
         usuariosDoBanco.add(user2);
 
-        Conteudo c1 = new Conteudo(1, "Conteudo1", "Valor do conteudo", "www.conteudo1.com", true);
-        Conteudo c2 = new Conteudo(2, "Conteudo2", "Valor do conteudo 2", "www.conteudo1.com", true);
+        Conteudo c1 = new Conteudo(1, "Scrum", "Texto com conteúdo 1", "www.conteudo1.com", true);
+        Conteudo c2 = new Conteudo(2, "Scrum - ritos", "Texto com conteúdo 2", "www.conteudo1.com", true);
+        Conteudo c3 = new Conteudo(3, "AWS", "Valor do conteudo 3", "www.conteudo1.com", true);
 
         userRepository.saveAll(usuariosDoBanco);
         trilhaRepository.save(t1);
         trilhaRepository.save(t2);
         conteudoRepository.save(c1);
         conteudoRepository.save(c2);
+        conteudoRepository.save(c3);
     }
 }

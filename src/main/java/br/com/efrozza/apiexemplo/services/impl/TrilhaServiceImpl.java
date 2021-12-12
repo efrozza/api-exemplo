@@ -15,6 +15,6 @@ public class TrilhaServiceImpl implements TrilhaService {
 
     @Override
     public List<Trilha> findAll() {
-        return repository.findAll();
+        return repository.findByOrderByNomeAsc();
     }
 }

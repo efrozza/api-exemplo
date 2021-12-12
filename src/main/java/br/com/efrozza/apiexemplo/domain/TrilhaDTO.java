@@ -11,6 +11,7 @@ import lombok.Setter;
 @Setter
 public class TrilhaDTO {
 
+    private Integer id;
     private String nome;
 
 }

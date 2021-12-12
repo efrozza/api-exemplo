@@ -6,14 +6,23 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@NamedNativeQuery(name = "Conteudo.findConteudosByTrilhaId",
+        query = "SELECT * FROM CONTEUDO C INNER JOIN trilha_conteudo tc " +
+                "ON c.id = tc.conteudo_id WHERE tc.trilha_id = :id",
+        resultSetMapping = "ConteudosDaTrilha")
+@SqlResultSetMapping(name = "ConteudosDaTrilha",
+        classes = @ConstructorResult(targetClass = Conteudo.class,
+                columns = {@ColumnResult(name = "id"),
+                        @ColumnResult(name = "nome"),
+                        @ColumnResult(name = "descricao"),
+                        @ColumnResult(name = "link"),
+                        @ColumnResult(name = "conteudo_Aprovado")}))
 public class Conteudo {
 
     @Id

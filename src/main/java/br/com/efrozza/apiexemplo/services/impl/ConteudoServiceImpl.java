@@ -8,6 +8,7 @@ import br.com.efrozza.apiexemplo.services.ConteudoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,8 +19,8 @@ public class ConteudoServiceImpl implements ConteudoService {
     @Autowired
     private ConteudoRepository repository;
 
-    @Autowired
-    private TrilhaRepository repositoryTrilha;
+    //@Autowired
+    //private TrilhaRepository repositoryTrilha;
 
     @Override
     public Optional<Conteudo> obterConteudo(Integer id) {
@@ -28,7 +29,11 @@ public class ConteudoServiceImpl implements ConteudoService {
 
     @Override
     public List<Conteudo> obterConteudosDaTrilha(Integer id) {
-        Optional<Trilha> trilha = repositoryTrilha.findById(id);
-        return trilha.get().getConteudos();
+        //Optional<Trilha> trilha = repositoryTrilha.findById(id);
+        ///if (trilha.isPresent() == true) {
+        //    return trilha.get().getConteudos();
+        //}
+        //return new ArrayList<>();
+        return repository.findConteudosByTrilhaId(id);
     }
 }

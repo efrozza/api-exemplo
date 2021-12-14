@@ -7,8 +7,8 @@ import java.util.Optional;
 
 public interface ConteudoService {
 
-    Optional<Conteudo> obterConteudo (Integer id);
+    Optional<Conteudo> obterConteudo(Integer id);
 
-    List<Conteudo> obterConteudosDaTrilha (Integer id);
+    List<Conteudo> obterConteudosDaTrilha(Integer id);
 
 }

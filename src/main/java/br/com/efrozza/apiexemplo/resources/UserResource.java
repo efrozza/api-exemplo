@@ -49,7 +49,7 @@ public class UserResource {
     public ResponseEntity<UserDTO> criarUsuario(@RequestBody UserDTO userDTO) {
         User novoUsuario = service.create(userDTO);
         URI uri = ServletUriComponentsBuilder
-                .fromCurrentRequestUri().path("/{id}").buildAndExpand(novoUsuario.getId()).toUri();
+                .fromCurrentRequestUri().path(ID).buildAndExpand(novoUsuario.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
 

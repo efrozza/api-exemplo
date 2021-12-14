@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -19,10 +21,10 @@ import javax.persistence.*;
 @SqlResultSetMapping(name = "ConteudosDaTrilha",
         classes = @ConstructorResult(targetClass = Conteudo.class,
                 columns = {@ColumnResult(name = "id"),
-                        @ColumnResult(name = "nome"),
-                        @ColumnResult(name = "descricao"),
-                        @ColumnResult(name = "link"),
-                        @ColumnResult(name = "conteudo_Aprovado")}))
+                           @ColumnResult(name = "nome"),
+                           @ColumnResult(name = "descricao"),
+                           @ColumnResult(name = "link"),
+                           @ColumnResult(name = "conteudo_aprovado")}))
 public class Conteudo {
 
     @Id
@@ -32,4 +34,5 @@ public class Conteudo {
     private String descricao;
     private String link;
     private boolean conteudoAprovado;
+
 }

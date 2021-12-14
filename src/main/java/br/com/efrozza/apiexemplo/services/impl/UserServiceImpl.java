@@ -28,11 +28,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findById(Integer id) {
         Optional<User> user = repository.findById(id);
-        return user.orElseThrow(() -> new ObjectNotFoundException(USUARIO_NAO_ENCONTRADO ));
+        return user.orElseThrow(() -> new ObjectNotFoundException(USUARIO_NAO_ENCONTRADO));
     }
 
     @Override
-    public List<User> findAll(){
+    public List<User> findAll() {
         return repository.findAll();
     }
 
@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
 
     public void findByEmail(UserDTO userDTO) {
         Optional<User> user = repository.findByEmail(userDTO.getEmail());
-        if (user.isPresent() && !user.get().getId().equals(userDTO.getId())){
+        if (user.isPresent() && !user.get().getId().equals(userDTO.getId())) {
             throw new DataIntegrityViolationException(EMAIL_JA_EXISTENTE);
         }
     }
@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User update(UserDTO userDTO) {
         Optional<User> user = repository.findById(userDTO.getId());
-        if (user.isPresent() ) {
+        if (user.isPresent()) {
             findByEmail(userDTO);
         } else {
             throw new ObjectNotFoundException(USUARIO_NAO_ENCONTRADO);
@@ -63,7 +63,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void delete(Integer id) {
         Optional<User> user = repository.findById(id);
-        if (!user.isPresent()){
+        if (!user.isPresent()) {
             throw new ObjectNotFoundException(USUARIO_NAO_ENCONTRADO);
         }
         repository.deleteById(id);

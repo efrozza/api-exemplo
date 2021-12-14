@@ -1,6 +1,5 @@
 package br.com.efrozza.apiexemplo.resources;
 
-import br.com.efrozza.apiexemplo.domain.Trilha;
 import br.com.efrozza.apiexemplo.domain.TrilhaDTO;
 import br.com.efrozza.apiexemplo.services.TrilhaService;
 import org.modelmapper.ModelMapper;
@@ -24,12 +23,12 @@ public class TrilhaResource {
     private TrilhaService service;
 
     @GetMapping
-    ResponseEntity<List<TrilhaDTO>> listarTrilhas (){
+    ResponseEntity<List<TrilhaDTO>> listarTrilhas() {
 
         List<TrilhaDTO> listaTrilha = service.findAll()
-                                     .stream()
-                                     .map(trilha -> mapper.map(trilha, TrilhaDTO.class))
-                                     .collect(Collectors.toList());
+                .stream()
+                .map(trilha -> mapper.map(trilha, TrilhaDTO.class))
+                .collect(Collectors.toList());
         return ResponseEntity.ok().body(listaTrilha);
     }
 

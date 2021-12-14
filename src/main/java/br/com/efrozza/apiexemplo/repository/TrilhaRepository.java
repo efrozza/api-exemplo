@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface TrilhaRepository extends JpaRepository<Trilha, Integer> {
-    List<Trilha> findByOrderByNomeAsc();
+    List<Trilha> findAllByOrderByNomeAsc();
 }

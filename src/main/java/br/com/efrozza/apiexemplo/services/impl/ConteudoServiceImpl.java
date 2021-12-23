@@ -31,10 +31,11 @@ public class ConteudoServiceImpl implements ConteudoService {
     public List<Conteudo> obterConteudosDaTrilha(Integer id) {
         //Optional<Trilha> trilha = repositoryTrilha.findById(id);
         ///if (trilha.isPresent() == true) {
-        //    return trilha.get().getConteudos();
+        //    return trilha.get().getCont
+        //    eudos();
         //}
         //return new ArrayList<>();
         //return repository.findConteudosByTrilhaId(id);
-        return repository.findConteudosByTrilhaId(id);
+        return repository.findAllByTrilhasId(id);
     }
 }

@@ -1,5 +1,6 @@
 package br.com.efrozza.apiexemplo.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,17 +15,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@NamedNativeQuery(name = "Conteudo.findConteudosByTrilhaId",
-        query = "SELECT * FROM CONTEUDO C INNER JOIN trilha_conteudo tc " +
-                "ON c.id = tc.conteudo_id WHERE tc.trilha_id = :id",
-        resultSetMapping = "ConteudosDaTrilha")
-@SqlResultSetMapping(name = "ConteudosDaTrilha",
-        classes = @ConstructorResult(targetClass = Conteudo.class,
-                columns = {@ColumnResult(name = "id"),
-                           @ColumnResult(name = "nome"),
-                           @ColumnResult(name = "descricao"),
-                           @ColumnResult(name = "link"),
-                           @ColumnResult(name = "conteudo_aprovado")}))
 public class Conteudo {
 
     @Id
@@ -34,5 +24,8 @@ public class Conteudo {
     private String descricao;
     private String link;
     private boolean conteudoAprovado;
+    @ManyToMany(mappedBy = "conteudos", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @JsonIgnore
+    private List<Trilha> trilhas = new ArrayList<>();
 
 }

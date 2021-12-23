@@ -44,9 +44,9 @@ public class LocalConfig {
         usuariosDoBanco.add(user1);
         usuariosDoBanco.add(user2);
 
-        Conteudo c1 = new Conteudo(1, "Scrum", "Texto com conteúdo 1", "www.conteudo1.com", true);
-        Conteudo c2 = new Conteudo(2, "Scrum - ritos", "Texto com conteúdo 2", "www.conteudo1.com", true);
-        Conteudo c3 = new Conteudo(3, "AWS", "Valor do conteudo 3", "www.conteudo1.com", true);
+        Conteudo c1 = new Conteudo(1, "Scrum", "Texto com conteúdo 1", "www.conteudo1.com", true, trilhas);
+        Conteudo c2 = new Conteudo(2, "Scrum - ritos", "Texto com conteúdo 2", "www.conteudo1.com", true, trilhas);
+        Conteudo c3 = new Conteudo(3, "AWS", "Valor do conteudo 3", "www.conteudo1.com", true, trilhas);
 
         userRepository.saveAll(usuariosDoBanco);
         trilhaRepository.save(t1);

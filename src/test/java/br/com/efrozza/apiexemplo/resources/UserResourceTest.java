@@ -3,35 +3,39 @@ package br.com.efrozza.apiexemplo.resources;
 import br.com.efrozza.apiexemplo.domain.User;
 import br.com.efrozza.apiexemplo.domain.UserDTO;
 import br.com.efrozza.apiexemplo.services.impl.UserServiceImpl;
-import org.junit.jupiter.api.Assertions;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.Assert;
+import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
+@AutoConfigureMockMvc
 class UserResourceTest {
 
-    public static final String NOME         = "Teste Mock User";
-    public static final String EMAIL        = "everton@bol.com";
-    public static final String PASSWORD     = "senha123";
-    public static final Integer ID          = 1;
+    public static final String NOME = "Teste Mock User";
+    public static final String EMAIL = "everton@bol.com";
+    public static final String PASSWORD = "senha123";
+    public static final Integer ID = 1;
     public static final String USUARIO_NAO_ENCONTRADO = "Usuario nao encontrado";
     public static final int INDEX_ZERO = 0;
     public static final String EMAIL_JA_EXISTENTE = "Email ja existente";
@@ -46,6 +50,12 @@ class UserResourceTest {
     private UserServiceImpl service;
     @Mock
     private ModelMapper mapper;
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @BeforeEach
     void setUp() {
@@ -87,7 +97,17 @@ class UserResourceTest {
     }
 
     @Test
-    void whenCriarUsuarioThenReturnCreated() {
+    void whenCriarUsuarioThenReturnCreated() throws Exception {
+
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId(1);
+        userDTO.setNome("Nome teste 1");
+        userDTO.setEmail("email@bol.com");
+
+        mockMvc.perform(post("/user")
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(userDTO)))
+                .andExpect(status().isCreated());
 
         when(service.create(any())).thenReturn(user);
 
@@ -96,6 +116,7 @@ class UserResourceTest {
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
 
     }
+
 
     @Test
     void whenAtualizarUsuario() {
@@ -126,16 +147,15 @@ class UserResourceTest {
         assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
 
 
-
     }
 
     // inicializa objetos que serão usados
-    private void startUser(){
+    private void startUser() {
         user = new User(ID, NOME, EMAIL, PASSWORD);
         userDTO = new UserDTO(ID, NOME, EMAIL, PASSWORD);
     }
 
-    private List<User> listaUsuariosMock (){
+    private List<User> listaUsuariosMock() {
         User user1 = new User(1, "Everton", "everton@bol.com", "123");
         User user2 = new User(2, "Testador", "testador@bol.com", "123");
 

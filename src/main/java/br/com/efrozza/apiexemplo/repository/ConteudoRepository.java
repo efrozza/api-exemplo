@@ -12,7 +12,6 @@ import java.util.Optional;
 public interface ConteudoRepository extends JpaRepository<Conteudo, Integer> {
     Optional<Conteudo> findById (Integer id);
 
-    @Query(nativeQuery = true)
-    List<Conteudo> findConteudosByTrilhaId (Integer id);
+    List<Conteudo> findAllByTrilhasId (Integer id);
 
 }

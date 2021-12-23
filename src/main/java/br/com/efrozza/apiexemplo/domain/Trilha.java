@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
@@ -19,11 +20,11 @@ public class Trilha {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String nome;
-    @ManyToMany(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "trilha_conteudo",
             joinColumns = @JoinColumn(name = "trilha_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "conteudo_id", referencedColumnName = "id"))
-    private List<Conteudo> conteudos;
+    private List<Conteudo> conteudos = new ArrayList<>();
 
 }

@@ -7,6 +7,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping(value = "/user")
 @Api(value = "User", description = "API for users operations", tags = "User V1")
+@Slf4j
 public class UserResource {
 
     public static final String ID = "/{id}";
@@ -40,6 +42,7 @@ public class UserResource {
     })
     @GetMapping(value = ID, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserDTO> findById(@PathVariable Integer id){
+        log.info("Get Users List");
         return ResponseEntity.ok().body(mapper.map(service.findById(id), UserDTO.class));
     }
 

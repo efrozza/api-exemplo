@@ -3,8 +3,13 @@ package br.com.efrozza.apiexemplo.resources;
 import br.com.efrozza.apiexemplo.domain.User;
 import br.com.efrozza.apiexemplo.domain.UserDTO;
 import br.com.efrozza.apiexemplo.services.UserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -15,6 +20,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/user")
+@Api(value = "User", description = "API for users operations", tags = "User V1")
 public class UserResource {
 
     public static final String ID = "/{id}";
@@ -25,9 +31,14 @@ public class UserResource {
     @Autowired
     private UserService service;
 
-    @GetMapping(value = ID)
-    // Devolver uma entity eh um erro de arquitetura e atéh uma falha de segurança
-    // por isso o padrao DTO é usado
+    // Anotacoes para documentao swagger
+    @ApiOperation(value = "List users", notes = "List users",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    @ApiResponses(value = {
+            @ApiResponse(code = 404, message = "User not found")
+    })
+    @GetMapping(value = ID, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserDTO> findById(@PathVariable Integer id){
         return ResponseEntity.ok().body(mapper.map(service.findById(id), UserDTO.class));
     }

@@ -114,6 +114,7 @@ class UserResourceTest {
         ResponseEntity<UserDTO> response = resource.criarUsuario(userDTO);
 
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        assertEquals("Nome teste 1", userDTO.getNome());
 
     }
 
